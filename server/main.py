@@ -1,6 +1,6 @@
 from mcp.server.fastmcp import FastMCP
 from codebase_tools import read_file_tool, write_file_tool, summarize_file_tool, search_code_tool
-from codebase_tools.summarize_files import summarize_file_tool
+
 mcp = FastMCP(
     name="Local codebase analyst mcp server",
 )
