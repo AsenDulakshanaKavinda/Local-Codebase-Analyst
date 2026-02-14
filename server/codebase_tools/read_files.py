@@ -1,6 +1,7 @@
 
-import os
 from pathlib import Path
+from utils import read_file, log
+
 
 
 async def read_file_tool(filepath: Path) -> str:
@@ -12,18 +13,4 @@ async def read_file_tool(filepath: Path) -> str:
     Returns:
         content of the file or the error message
     """
-    if not filepath:
-        return "[READ_FILE_ERROR]: filepath missing or empty."
-
-    if not filepath.exists():
-        return f"[READ_FILE_ERROR]: file '{filepath}' does not exist."
-    
-    if not filepath.is_file():
-        return f"[READ_FILE_ERROR]: '{filepath}' is not a file."
-
-    try:
-        with open(file=filepath, mode="r", encoding="utf-8") as file:
-            content = await file.read()
-            return content
-    except Exception as e:
-        return f"[READ_FILE_ERROR]: while reading file: {str(e)}"
+    return read_file(filepath=filepath)

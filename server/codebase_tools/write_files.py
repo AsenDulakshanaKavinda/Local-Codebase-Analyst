@@ -1,6 +1,6 @@
 
-import os
 from pathlib import Path
+from utils import write_file
 
 
 async def write_file_tool(filepath: Path, content) -> str:
@@ -13,14 +13,4 @@ async def write_file_tool(filepath: Path, content) -> str:
     Returns:
         success or error message
     """
-    if not filepath:
-        return "[WRITE_FILE_ERROR]: filepath missing or empty."
-
-    try:
-        with open(file=filepath, mode="W", encoding="utf-8") as file:
-            await file.write(content)
-
-        return f"Success: wrote to '{filepath}'."
-    
-    except Exception as e:
-        return f"Error while writing file: {str(e)}"
+    return write_file(filepath=filepath, content=content)

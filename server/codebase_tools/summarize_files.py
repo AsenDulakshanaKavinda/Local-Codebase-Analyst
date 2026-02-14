@@ -45,12 +45,13 @@ Do not exceed 400 words.
 import os
 from groq import Groq
 from pathlib import Path
+from utils import read_file
 from dotenv import load_dotenv; load_dotenv()
 
 groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 
-async def summarize_file(content: str) -> str:
+def summarize_file_tool(filepath: Path):
     """
     Summarize a source code file for quick understanding.
 
@@ -59,9 +60,13 @@ async def summarize_file(content: str) -> str:
     Returns:
         summary of the content or error message
     """
+    content = read_file(filepath=filepath)
 
     if not content:
         return f"[SUMMARIZE_FILE_ERROR]: file content missing or empty."
+    
+    if content.startswith("[FILE_OPS_ERROR]"):
+        return content
     
     if len(content) > 8000:
         content = content[:8000]
@@ -75,7 +80,7 @@ async def summarize_file(content: str) -> str:
             ],
             temperature=0
         )
-        summary = await response.choices[0].message.content
+        summary = response.choices[0].message.content
         return summary
     except Exception as e:
         f"[SUMMARIZE_FILE_ERROR]: error while summarizing the content {str(e)}"
